@@ -10,6 +10,40 @@ Upplýsingar:    Upphaflegi tetris leikurinn: https://is.wikipedia.org/wiki/Tetr
 **************************************************************************************************************
 """
 
+# Import modules
+from random import randint  # Random til að láta forritið velja næsta tetrimino af handahófi - Documentation : https://docs.python.org/3/library/random.html
+import pyglet # Eining/mát (e. module) sem gerir okkur kleift að spila hljóðskrár og ýmislegt fleira - Documentation : https://pyglet.readthedocs.io/en/latest/index.html
+pyglet.options['search_local_libs'] = True  # Leyfum pyglet einingunni að skoða möppuna sem við erum í til að finna hljóðskránna okkar
+
+
+# Declare dependencies
+theme_song = pyglet.media.load("Tetris_theme.ogg")  # Segir forritinu hvaða lag við ætlum að nota
+spilari = pyglet.media.Player()                     # Býr til spilara (e. player). Gerir okkur kleift að "loop-a" hljóðskrár
+
+# Stigagjöf
+"""
+Fyrir 1 línu
+100 stig
+Fyrir 2 línur
+250 stig
+Fyrir 3 línur
+400 stig
+Fyrir 4 línur (einnig þekkt sem Tetris)
+800 stig
+Fyrir að fá Tetris tvisvar í röð
+1200 stig (fást fyrir seinna Tetris-ið)
+
+Þegar leikmaður leggur tetrimino niður með því að hard drop-pa
+10 stig fyrir hvern reit sem tetrimino-inn féll niður um í hard drop-pinu
+"""
+points_1_line = 100
+points_2_lines = 250
+points_3_lines = 400
+points_tetris = 800
+points_double_tetris = 1200
+points_per_square_hard_drop = 10
+
+
 # Útbúum tetrimino-a - Þeir eru 7 - Munum eftir að gefa þeim allar þær skipanir sem þeir þurfa að kunna
     # Tetrimino 1 - I
     # Tetrimino 2 - O
@@ -19,9 +53,14 @@ Upplýsingar:    Upphaflegi tetris leikurinn: https://is.wikipedia.org/wiki/Tetr
     # Tetrimino 6 - J
     # Tetrimino 7 - L
 
-# Búum til skjá og setjum leikskjá (e. The Tetris Zone) inn í hann
+# Spila tetris lagið í bakgrunninum á meðan leikurinn er í gangi - Loop - Mikilvægt að skilgreina spilarann áður en appið er keyrt
+spilari.queue(theme_song)
+spilari.loop = True
+spilari.play()
 
-# Spila tetris lagið í bakgrunninum á meðan leikurinn er í gangi
+# Búum til skjá og setjum leikskjá (e. The Tetris Zone) inn í hann
+skjar = pyglet.window.Window()
+pyglet.app.run()
 
 # Gerum upphafsskjá sem leyfir þér að smella á "Spila"
 
@@ -30,6 +69,8 @@ Upplýsingar:    Upphaflegi tetris leikurinn: https://is.wikipedia.org/wiki/Tetr
     # Sínum fyrir neðan gluggann stigafjölda
     # Sínum á hvaða borði (e. level) leikmaðurinn er
     # Sínum fjölda lína sem leikmaðurinn hefur tekist að láta hverfa
+
+next_tetrimino = randint(1, 7)
 
 # Setjum tetrimino inn í skjáinn einn í einu
 
@@ -52,20 +93,4 @@ Upplýsingar:    Upphaflegi tetris leikurinn: https://is.wikipedia.org/wiki/Tetr
 # stig í samræmi við hversu margar línur hurfu samtímis.
     # Láta alla kubba fyrir ofan línuna detta niður þegar línan/línurnar hverfa
 
-"""
-Stigagjöf:
-Fyrir 1 línu
-100 stig
-Fyrir 2 línur
-250 stig
-Fyrir 3 línur
-400 stig
-Fyrir 4 línur (einnig þekkt sem Tetris)
-800 stig
-Fyrir að fá Tetris tvisvar í röð
-1200 stig (fást fyrir seinna Tetris-ið)
-
-Þegar leikmaður leggur tetrimino niður með því að hard drop-pa
-10 stig fyrir hvern reit sem tetrimino-inn féll niður um í hard drop-pinu
-"""
-
+print("Forritið keyrði í gegn")
