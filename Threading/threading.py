@@ -1,1 +1,0 @@
-# Testing the threading functionality of the threading module
